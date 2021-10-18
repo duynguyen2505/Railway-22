@@ -59,5 +59,5 @@ UPDATE accounts SET fullname = "Nguyễn Bá Lộc", email = "loc.nguyenba@vti.c
 WHERE account_id  = 5;
 
 -- Question 15: update account có id = 5 sẽ thuộc group có id = 4
-UPDATE `groups` SET creator_id = 5
+UPDATE accounts SET creator_id = 5
 WHERE group_id = 4;
