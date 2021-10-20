@@ -57,7 +57,8 @@ SELECT a.category_name,
        q.question_id 
 FROM category_questions a
 INNER JOIN questions q
-ON q.category_id = a.category_id ;
+ON q.category_id = a.category_id
+GROUP BY q.category_id ;
 
 -- CAU 7
 SELECT  q.question_id,
@@ -88,7 +89,7 @@ LIMIT 1);
 SELECT COUNT(a.account_id),
        g.group_id 
 FROM `groups` g
-INNER JOIN group_accounts a
+LEFT JOIN group_accounts a
 ON a.group_id = g.group_id
 GROUP BY g.group_id;
 
@@ -148,5 +149,71 @@ LEFT JOIN answers a
 ON  a.question_id = q.question_id
 WHERE a.answer_id IS NULL;
 
+-- UNION
+-- Cau 16
+SELECT *
+FROM accounts a
+INNER JOIN `groups` g
+ON a.account_id = g.creator_id
+WHERE group_id = 1;
+       
+-- Cau 17
+SELECT *
+FROM accounts a
+INNER JOIN `groups` g
+ON a.account_id = g.creator_id
+WHERE group_id = 2;
+
+-- Cau 18
+SELECT *
+FROM accounts a
+INNER JOIN `groups` g
+ON a.account_id = g.creator_id
+WHERE group_id = 1
+UNION
+SELECT *
+FROM accounts a
+INNER JOIN `groups` g
+ON a.account_id = g.creator_id
+WHERE group_id = 2;
+
+-- Cau 19
+SELECT g.group_name,
+       g.group_id,
+       COUNT(a.account_id)
+FROM `groups` g
+INNER JOIN accounts a
+ON a.account_id = g.creator_id
+GROUP BY g.group_id
+HAVING COUNT(a.account_id) > 4; 
+
+-- Cau 20
+SELECT g.group_name,
+       g.group_id,
+       COUNT(a.account_id)
+FROM `groups` g
+INNER JOIN accounts a
+ON a.account_id = g.creator_id
+GROUP BY g.group_id
+HAVING COUNT(a.account_id) < 7;
+
+-- Cau 21
+SELECT g.group_name,
+       g.group_id,
+       COUNT(a.account_id)
+FROM `groups` g
+INNER JOIN accounts a
+ON a.account_id = g.creator_id
+GROUP BY g.group_id
+HAVING COUNT(a.account_id) > 4
+UNION
+SELECT g.group_name,
+       g.group_id,
+       COUNT(a.account_id)
+FROM `groups` g
+INNER JOIN accounts a
+ON a.account_id = g.creator_id
+GROUP BY g.group_id
+HAVING COUNT(a.account_id) < 7;
 
 
